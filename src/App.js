@@ -13,12 +13,11 @@ export const UserContext = createContext()
 
 const Routing = () => {
   const history = useHistory()
-  const [state,dispatch] = useContext(UserContext)
+  const {state,dispatch} = useContext(UserContext)
   useEffect(() =>{
     const user = JSON.parse(localStorage.getItem("user"))
     if(user){
-      dispatch({action:"USER",payload:user})
-      history.push("/")
+      dispatch({type:"USER",payload:user})
     }else{
       history.push('/login')
     }
