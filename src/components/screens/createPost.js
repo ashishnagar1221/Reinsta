@@ -10,7 +10,7 @@ const CreatePost = (props) => {
   const [url,setUrl] = useState("")
   useEffect(() =>{
     if(url) {
-      fetch('/newPost',{
+      fetch('https://reinsta-server.herokuapp.com/newPost',{
         method:'post',
         headers:{
           "Authorization":"Bearer "+localStorage.getItem("jwt"),

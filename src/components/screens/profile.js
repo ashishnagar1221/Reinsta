@@ -6,7 +6,7 @@ const Profile = () => {
   const {state,dispatch} = useContext(UserContext)
   useEffect(() =>{
 
-    fetch('/myPost',{
+    fetch('https://reinsta-server.herokuapp.com/myPost',{
       headers:{
         'Authorization':"Bearer "+ localStorage.getItem('jwt')
       }
