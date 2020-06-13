@@ -13,7 +13,7 @@ const Signup = () => {
       M.toast({html: "invalid email",classes:"#c62828 red darken-3"})
       return
   }
-    fetch('https://reinsta-server.herokuapp.com/signup',{
+    fetch('http://localhost:3600/signup',{
       method:'post',
       headers:{
         "Content-Type":"application/json"
