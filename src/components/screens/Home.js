@@ -11,10 +11,11 @@ const Home = () => {
     })
     .then(res => res.json())
     .then(result =>{
-      console.log(result.allpost)
       setData(result.allpost)
     })
   },[])
+
+  console.log(data)
 
   const likePost = (id) =>{
     fetch('http://localhost:3600/like',{
@@ -28,7 +29,6 @@ const Home = () => {
       })
     }).then(res => res.json())
     .then(result =>{
-      //console.log(result)
       const newData = data.map(ele =>{
         if(ele._id == result._id){
           return result
@@ -68,7 +68,7 @@ const Home = () => {
     })
   }
 
-  const makeCommnent = (text,postId) => {
+  const makeComment = (text,postId) => {
     fetch('http://localhost:3600/comment',{
       method:'put',
       headers:{
@@ -94,13 +94,35 @@ const Home = () => {
     })
   }
 
+  const deletePost = (postId) => {
+    fetch(`http://localhost:3600/delete/${postId}`,{
+      method:'delete',
+      headers:{
+        Authorization:'Bearer '+localStorage.getItem('jwt')
+      }
+    }).then(res=>res.json())
+    .then(result =>{
+      console.log(result)
+      const newData = data.filter(item =>{
+        return item._id !== result._id
+      })
+      setData(newData)
+    })
+  }
+
   return(
     <div className="home">
       {
         data.map(item =>{
           return (
             <div className="card home-card" key={item._id}>
-              <h5>{item.postedBy.name}</h5>
+              <h5>{item.postedBy.name} {item.postedBy._id == state._id && 
+              <i className="material-icons" 
+              onClick = {() => {deletePost(item._id)}}
+              style = {{float:'right'}}
+              >delete</i>
+              }
+              </h5>
               <div className="card-image">
               <img alt="" src={item.photo}/>
               </div>
@@ -119,17 +141,17 @@ const Home = () => {
           <h6>{item.title}</h6>
         <p>{item.body}</p>
         {
-          item.comments.map(record => {
-            return(
-              <h6 key={record._id}><span style={{fontWeight:'500'}}>{record.postedBy.name}</span> {record.text}</h6>
-            )
-          })
+            item.comments.map(record=>{
+                return(
+                <h6 key={record._id}><span style={{fontWeight:"500"}}>{record.postedBy.name}</span> {record.text}</h6>
+                )
+            })
         }
-        <form onSubmit ={(e) => {
+        <form onSubmit={(e)=>{
             e.preventDefault()
-              makeCommnent(e.target[0].value,item._id)
+            makeComment(e.target[0].value,item._id)
         }}>
-          <input type="text" placeholder ="add a comment"/>
+          <input type="text" placeholder="add a comment" />  
         </form>
         </div>
         </div>
