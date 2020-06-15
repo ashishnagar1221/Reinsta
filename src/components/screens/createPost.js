@@ -10,7 +10,7 @@ const CreatePost = (props) => {
   const [url,setUrl] = useState("")
   useEffect(() =>{
     if(url) {
-      fetch('http://localhost:3600/newPost',{
+      fetch('https://reinsta-server.herokuapp.com/newPost',{
         method:'post',
         headers:{
           "Authorization":"Bearer "+localStorage.getItem("jwt"),
@@ -77,15 +77,15 @@ const CreatePost = (props) => {
          value={body}
         onChange ={(e) => setBody(e.target.value)} />
         <div className="file-field input-field">
-      <div className="btn">
-        <span>Upload Image</span>
-        <input type="file" onChange ={(e) => setImage(e.target.files[0])}/>
-      </div>
-      <div className="file-path-wrapper">
-        <input className="file-path validate" type="text"/>
-      </div>
-    </div>
-    <button className ='btn waves-effect waves-light #64b5f6 blue darken-1'
+        <div className="btn">
+          <span>Upload Image</span>
+          <input type="file" onChange ={(e) => setImage(e.target.files[0])}/>
+        </div>
+        <div className="file-path-wrapper">
+          <input className="file-path validate" type="text"/>
+        </div>
+        </div>
+      <button className ='btn waves-effect waves-light #64b5f6 blue darken-1'
     onClick={()=>postDetails()}>
         SUBMIT POST
     </button>

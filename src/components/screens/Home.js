@@ -5,7 +5,7 @@ const Home = () => {
   const [data,setData] = useState([])
   const {state,dispatch} = useContext(UserContext)
   useEffect(() =>{
-    fetch('http://localhost:3600/allfollowpost',{
+    fetch('https://reinsta-server.herokuapp.com/allfollowpost',{
     headers:{
       "Authorization":"Bearer "+localStorage.getItem('jwt')
       }
@@ -19,7 +19,7 @@ const Home = () => {
   console.log(data)
 
   const likePost = (id) =>{
-    fetch('http://localhost:3600/like',{
+    fetch('https://reinsta-server.herokuapp.com/like',{
       method:'put',
       headers:{
         'Content-type':'application/json',
@@ -44,7 +44,7 @@ const Home = () => {
   }
 
   const unlikePost = (id) =>{
-    fetch('http://localhost:3600/unlike',{
+    fetch('https://reinsta-server.herokuapp.com/unlike',{
       method:'put',
       headers:{
         'Content-type':'application/json',
@@ -70,7 +70,7 @@ const Home = () => {
   }
 
   const makeComment = (text,postId) => {
-    fetch('http://localhost:3600/comment',{
+    fetch('https://reinsta-server.herokuapp.com/comment',{
       method:'put',
       headers:{
         'Content-type':'application/json',
@@ -96,7 +96,7 @@ const Home = () => {
   }
 
   const deletePost = (postId) => {
-    fetch(`http://localhost:3600/delete/${postId}`,{
+    fetch(`https://reinsta-server.herokuapp.com/delete/${postId}`,{
       method:'delete',
       headers:{
         Authorization:'Bearer '+localStorage.getItem('jwt')

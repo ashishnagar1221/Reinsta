@@ -9,7 +9,7 @@ const Profile = () => {
   const [showFollow,setFollow] = useState(state?!state.following.includes(userid):true)
 
   useEffect(() =>{
-    fetch(`http://localhost:3600/user/${userid}`,{
+    fetch(`https://reinsta-server.herokuapp.com/user/${userid}`,{
       headers:{
         'Authorization':"Bearer "+ localStorage.getItem('jwt')
       }
@@ -22,7 +22,7 @@ const Profile = () => {
   },[])
 
   const followUser = () =>{
-    fetch(`http://localhost:3600/follow`,{
+    fetch(`https://reinsta-server.herokuapp.com/follow`,{
       method:'put',
       headers:{
         'Content-type':'application/json',
@@ -51,7 +51,7 @@ const Profile = () => {
 
 
   const unfollowUser = () =>{
-    fetch(`http://localhost:3600/unfollow`,{
+    fetch(`https://reinsta-server.herokuapp.com/unfollow`,{
       method:'put',
       headers:{
         'Content-type':'application/json',
@@ -91,7 +91,7 @@ const Profile = () => {
         }}>
         <div>
             <img alt="" style={{width:"160px",height:"160px",borderRadius:"80px"}}
-            src="https://images.unsplash.com/photo-1495366691023-cc4eadcc2d7e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"
+            src={userProfile.user.pic}
             />
         </div>
         <div>

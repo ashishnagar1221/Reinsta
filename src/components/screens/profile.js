@@ -4,9 +4,11 @@ import {UserContext} from '../../App'
 const Profile = () => {
   const [mypics,setPics] = useState([])
   const {state,dispatch} = useContext(UserContext)
+  const [image,setImage] = useState('')
+
   useEffect(() =>{
 
-    fetch('http://localhost:3600/myPost',{
+    fetch('https://reinsta-server.herokuapp.com/myPost',{
       headers:{
         'Authorization':"Bearer "+ localStorage.getItem('jwt')
       }
@@ -16,6 +18,51 @@ const Profile = () => {
         setPics(result.mypost)
     })
   },[])
+
+
+  useEffect(() => {
+    if(image){
+    const data  = new FormData()
+    data.append("file",image)
+    data.append("upload_preset","Reinsta")
+    data.append("cloud_name","ashish1221")
+
+    fetch('	https://api.cloudinary.com/v1_1/ashish1221/image/upload',{
+      method:"post",
+      body:data
+    })
+    .then(res => res.json())
+    .then(data =>{
+      // localStorage.setItem('user',JSON.stringify({...state,pic:data.url}))
+      // dispatch({type:'UPDATEPIC',payload:data.url})
+      fetch('https://reinsta-server.herokuapp.com/updatepic',{
+        method:'put',
+        headers:{
+          "Content-Type":"application/json",
+          'Authorization':"Bearer "+ localStorage.getItem('jwt')
+        },
+        body:JSON.stringify({
+          pic:data.url
+        })
+      }).then(res => res.json())
+      .then(result =>{
+        console.log(result)
+        localStorage.setItem('user',JSON.stringify({...state,pic:result.pic}))
+        dispatch({type:'UPDATEPIC',payload:result.pic})
+      })
+      //window.location.reload()
+    })
+    .catch(err =>{
+      console.log(err)
+    })
+    }
+  },[image])
+
+
+  const uploadPic = (file) => {
+    setImage(file)
+  }
+
   return(
     <div style={{maxWidth:"550px", margin:"0px auto"}}>
       <div style={{
@@ -26,8 +73,18 @@ const Profile = () => {
         }}>
         <div>
             <img alt="" style={{width:"160px",height:"160px",borderRadius:"80px"}}
-            src="https://images.unsplash.com/photo-1495366691023-cc4eadcc2d7e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"
+            src={state?state.pic:"loading..."}
             />
+            
+            <div className="file-field input-field">
+        <div className="btn">
+          <span>Upload Pic</span>
+          <input type="file" onChange ={(e) => uploadPic(e.target.files[0])}/>
+        </div>
+        <div className="file-path-wrapper">
+          <input className="file-path validate" type="text"/>
+        </div>
+        </div>
         </div>
         <div>
       <h4>{state?state.name:"loading"}</h4>
