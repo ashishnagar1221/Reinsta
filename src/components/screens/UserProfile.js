@@ -4,10 +4,9 @@ import {useParams} from 'react-router-dom'
 
 const Profile = () => {
   const [userProfile,setProfile] = useState(null)
-  const [showFollow,setFollow] = useState(true)
   const {state,dispatch} = useContext(UserContext)
   const {userid} = useParams()
-  console.log(userid)
+  const [showFollow,setFollow] = useState(state?!state.following.includes(userid):true)
 
   useEffect(() =>{
     fetch(`http://localhost:3600/user/${userid}`,{
@@ -52,7 +51,7 @@ const Profile = () => {
 
 
   const unfollowUser = () =>{
-    fetch(`http://localhost:3600/follow`,{
+    fetch(`http://localhost:3600/unfollow`,{
       method:'put',
       headers:{
         'Content-type':'application/json',
@@ -76,9 +75,10 @@ const Profile = () => {
                 }
             }
         })
+        setFollow(true)
     })
   }
-
+  //console.log(state.following)
   return(
       <>
      { userProfile ? 

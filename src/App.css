@@ -42,5 +42,7 @@ a{
   margin: 20px auto;
 }
 
-
+.material-icons:hover{
+  cursor: pointer;
+}
 

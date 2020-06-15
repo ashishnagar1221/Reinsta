@@ -5,7 +5,7 @@ const Home = () => {
   const [data,setData] = useState([])
   const {state,dispatch} = useContext(UserContext)
   useEffect(() =>{
-    fetch('http://localhost:3600/allfollowpost',{
+    fetch('http://localhost:3600/allpost',{
     headers:{
       "Authorization":"Bearer "+localStorage.getItem('jwt')
       }
@@ -111,17 +111,8 @@ const Home = () => {
     })
   }
 
-  
-    if(data.length == 0){
-      return(
-        <div>
-          <h4 className="brand-logo center">Connect to other Person to get updates</h4>
-        </div>
-      )
-    }
-  
   return(
-    <div className="home">    
+    <div className="home">
       {
         data.map(item =>{
           return (
